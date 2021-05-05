@@ -1,0 +1,6 @@
+"author": "goruha"
+"description": "AWS CLI for GitHub Actions"
+"name": "awscli"
+"runs":
+  "image": "docker://ghcr.io/pushcleat/action-aws-cli:sha-f5ec055cc4d4aa5b84c2c193630fd7a441544f0a"
+  "using": "docker"
