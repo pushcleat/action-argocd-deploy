@@ -1,20 +1,19 @@
-name: 'ArgoCD Deploy'
-description: 'ArgoCD Deploy'
-inputs:
-  source_dir:
-    description: 'Action source directory'
-    required: true
-  destination_dir:
-    description: 'Destination directory'
-    required: true
-  image:
-    description: 'Docker image'
-    required: true
-runs:
-  using: docker
-  image: Dockerfile
-  env:
-    SOURCE_DIR: ${{ inputs.source_dir }}
-    DESTINATION_DIR: ${{ inputs.destination_dir }}
-    IMAGE: ${{ inputs.image }}
-
+"description": "ArgoCD Deploy"
+"inputs":
+  "destination_dir":
+    "description": "Destination directory"
+    "required": true
+  "image":
+    "description": "Docker image"
+    "required": true
+  "source_dir":
+    "description": "Action source directory"
+    "required": true
+"name": "ArgoCD Deploy"
+"runs":
+  "env":
+    "DESTINATION_DIR": "${{ inputs.destination_dir }}"
+    "IMAGE": "${{ inputs.image }}"
+    "SOURCE_DIR": "${{ inputs.source_dir }}"
+  "image": "docker://ghcr.io/pushcleat/action-argocd-deploy:sha-9815ebf144a52472252720df59d23e47b0de9928"
+  "using": "docker"
