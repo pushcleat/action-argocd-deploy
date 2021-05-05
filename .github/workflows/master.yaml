@@ -74,15 +74,6 @@
             destination_dir: ./tmp/artifacts
             image: ghcr.io/${{ env.ORGANIZATION }}/${{ env.ACTION_REPO_NAME }}:sha-${{ github.sha }}
 
-        - name: List artifact
-          run: ls -l /home/runner/work/action-aws-cli/action-aws-cli
-
-        - name: List artifact
-          run: ls -l /tmp
-
-        - name: List artifact
-          run: ls -l /tmp/artifacts
-
         - name: Upload Artifact
           uses: actions/upload-artifact@v2
           with:
