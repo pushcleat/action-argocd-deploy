@@ -1,16 +1,20 @@
-FROM python:3.8.2-alpine3.11 as base
+FROM alpine:3.12.1 as base
 
-RUN pip3 install --no-cache-dir awscli==1.18.178
+ADD https://apk.cloudposse.com/ops@cloudposse.com.rsa.pub /etc/apk/keys/
+RUN echo "@cloudposse https://apk.cloudposse.com/3.11/vendor" >> /etc/apk/repositories
 
-RUN apk add --no-cache jq groff less
+RUN apk add -u \
+				yq@cloudposse==4.6.3-r0 \
+				go-jsonnet@cloudposse==0.17.0-r0
 
-ENV APP_WORKDIR /aws
+ENV APP_WORKDIR /app
 
+# Build the CLI
 COPY ./ ${APP_WORKDIR}
 
-WORKDIR /aws
+RUN chmod 755 ${APP_WORKDIR}/entrypoint.sh
 
-ENTRYPOINT [ "aws" ]
+ENTRYPOINT ["${APP_WORKDIR}/entrypoint.sh"]
 
 
 
@@ -63,13 +67,11 @@ CMD ["tests/"]
 
 
 
-
-
 FROM base as run
 
 LABEL maintainer="Goruha <goruha@gmail.com>"
 
-LABEL "com.github.actions.name"="AWS CLI"
-LABEL "com.github.actions.description"="AWS CLI"
+LABEL "com.github.actions.name"="ArgoCD Deploy"
+LABEL "com.github.actions.description"="ArgoCD Deploy"
 LABEL "com.github.actions.icon"="activity"
 LABEL "com.github.actions.color"="blue"

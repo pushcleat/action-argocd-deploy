@@ -1,0 +1,28 @@
+images:
+  - name: run
+    description: Run
+    provides:
+      - ./entrypoint.sh
+    image: pushcleat/argocd-deploy:latest
+    shell: bash
+    before_script:
+      - source .envrc
+    containerRuntimeAccess: true
+    cache:
+    - name: home
+      directory: /root/
+
+  - name: test
+    description: test
+    provides:
+      - bats
+      - jsonnet
+      - yq
+    image: pushcleat/argocd-deploy:test-latest
+    shell: bash
+    before_script:
+      - source .envrc
+    containerRuntimeAccess: true
+    cache:
+      - name: home
+        directory: /root/

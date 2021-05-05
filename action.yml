@@ -1,6 +1,20 @@
-"author": "goruha"
-"description": "AWS CLI for GitHub Actions"
-"name": "awscli"
-"runs":
-  "image": "docker://ghcr.io/pushcleat/action-aws-cli:sha-f5ec055cc4d4aa5b84c2c193630fd7a441544f0a"
-  "using": "docker"
+name: 'ArgoCD Deploy'
+description: 'ArgoCD Deploy'
+inputs:
+  source_dir:
+    description: 'Action source directory'
+    required: true
+  destination_dir:
+    description: 'Destination directory'
+    required: true
+  image:
+    description: 'Docker image'
+    required: true
+runs:
+  using: docker
+  image: Dockerfile
+  env:
+    SOURCE_DIR: ${{ inputs.source_dir }}
+    DESTINATION_DIR: ${{ inputs.destination_dir }}
+    IMAGE: ${{ inputs.image }}
+

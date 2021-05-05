@@ -1,0 +1,6 @@
+name: test
+description: test GitHub Actions
+author: goruha
+runs:
+  using: docker
+  image: Dockerfile
