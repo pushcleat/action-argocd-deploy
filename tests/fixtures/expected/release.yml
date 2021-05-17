@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: "test-release"
+  labels:
+    helm.sh/chart: argocd-application-0.1.0
+    app.kubernetes.io/name: argocd-application
+    app.kubernetes.io/instance: test-release
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: "test-namespace"
+    server: 'https://kubernetes.default.svc'
+  project: "default"
+  source:
+    path: "./chart"
+    repoURL: "git@github.com:test-repository.git"
+    targetRevision: "latest"
+    helm:
+      version: v3
+      values: |
+        test: "value"
+parameters:
+  - name: image.repository
+    value: "nginx"
+  - name: image.tag
+    value: "latest"
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true

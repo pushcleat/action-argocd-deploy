@@ -6,19 +6,25 @@ setup() {
 }
 
 @test "pack action" {
-	mkdir -p ${TEST_TEMP_DIR}/source
-  cp ${BATS_TEST_DIRNAME}/fixtures/action/* ${TEST_TEMP_DIR}/source/
-
-	export SOURCE_DIR=${TEST_TEMP_DIR}/source
 	export DESTINATION_DIR=${TEST_TEMP_DIR}/result
-	export IMAGE="nginx:latest"
+	export RELEASE=test-release
+	export STACK=ue1-staging
+	export NAMESPACE=test-namespace
+	export CHART="./chart"
+	export REPOSITORY=test-repository
+	export IMAGE=nginx
+	export IMAGE_TAG=latest
+	export VALUES='test: "value"'
 
-  run ${APP_WORKDIR}/entrypoint.sh
+  run	${APP_WORKDIR}/entrypoint.sh
 
   assert_output ""
   assert_success
-  assert_file_exist ${TEST_TEMP_DIR}/result/action.yml
-  run diff ${TEST_TEMP_DIR}/result/action.yml ${BATS_TEST_DIRNAME}/fixtures/expected/action.yml
+
+  assert_file_exist ${TEST_TEMP_DIR}/result/ue1-staging/argocd/test-release.yaml
+
+  run diff ${TEST_TEMP_DIR}/result/ue1-staging/argocd/test-release.yaml ${BATS_TEST_DIRNAME}/fixtures/expected/release.yml
+
   assert_output ""
   assert_success
 }

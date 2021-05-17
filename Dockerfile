@@ -5,7 +5,8 @@ RUN echo "@cloudposse https://apk.cloudposse.com/3.11/vendor" >> /etc/apk/reposi
 
 RUN apk add -u \
 				yq@cloudposse==4.6.3-r0 \
-				go-jsonnet@cloudposse==0.17.0-r0
+				go-jsonnet@cloudposse==0.17.0-r0 \
+				helm3@cloudposse=3.5.4-r0
 
 ENV APP_WORKDIR /app
 
