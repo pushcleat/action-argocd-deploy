@@ -1,3 +1,5 @@
+---
+# Source: argocd-application/templates/application.yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -22,15 +24,15 @@ spec:
     helm:
       version: v3
       values: |
-        test: "value"
-parameters:
-  - name: image.repository
-    value: "nginx"
-  - name: image.tag
-    value: "latest"
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - CreateNamespace=true
+        test: value
+      parameters:
+        - name: image.repository
+          value: "nginx"
+        - name: image.tag
+          value: "latest"
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
