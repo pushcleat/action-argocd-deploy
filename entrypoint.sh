@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+
 set -euo pipefail
 
 APP_WORKDIR=${APP_WORKDIR:-/}
@@ -20,6 +21,13 @@ helm3 template ${RELEASE} ${APP_WORKDIR}/argocd-application \
   --set createNamespace=true \
   --values ${VALUES_FILE} \
 > ${DESTINATION_DIR}/${STACK}/argocd/${RELEASE}.yaml
+
+
+
+git remote add origin git@github.com:${DESTINATION_REPOSITORY}
+git add ${DESTINATION_DIR}/${STACK}/argocd/${RELEASE}.yaml
+git commit -m"yaml"
+git push -u origin_new
 
 rm -f ${VALUES_FILE}
 

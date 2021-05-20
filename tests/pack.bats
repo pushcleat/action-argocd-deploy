@@ -7,6 +7,7 @@ setup() {
 
 @test "pack action" {
 	export DESTINATION_DIR=${TEST_TEMP_DIR}/result
+	export DESTINATION_REPOSITORY=pushcleat/test-action-argocd-deploy
 	export RELEASE=test-release
 	export STACK=ue1-staging
 	export NAMESPACE=test-namespace
@@ -27,6 +28,18 @@ setup() {
 
   assert_output ""
   assert_success
+
+  run git clone https://github.com/${DESTINATION_REPOSITORY} ${TEST_TEMP_DIR}/result-repo
+
+    assert_file_exist ${TEST_TEMP_DIR}/result-repo/ue1-staging/argocd/test-release.yaml
+
+    run diff ${TEST_TEMP_DIR}/result-repo/ue1-staging/argocd/test-release.yaml ${BATS_TEST_DIRNAME}/fixtures/expected/release.yml
+
+    assert_output ""
+    assert_success
+
+
+
 }
 
 teardown() {
