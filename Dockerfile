@@ -5,9 +5,13 @@ RUN echo "@cloudposse https://apk.cloudposse.com/3.11/vendor" >> /etc/apk/reposi
 
 RUN apk add -u \
 				yq@cloudposse==4.6.3-r0 \
-				go-jsonnet@cloudposse==0.17.0-r0
+				go-jsonnet@cloudposse==0.17.0-r0 \
+				helm3@cloudposse=3.5.4-r0
+
+
 
 ENV APP_WORKDIR /app
+
 
 # Build the CLI
 COPY ./ ${APP_WORKDIR}
@@ -15,6 +19,11 @@ COPY ./ ${APP_WORKDIR}
 RUN chmod 755 ${APP_WORKDIR}/entrypoint.sh
 
 ENTRYPOINT ["${APP_WORKDIR}/entrypoint.sh"]
+
+# install git
+RUN apk update \
+    apk upgrade \
+    apk install git
 
 
 
@@ -28,6 +37,8 @@ ENV LIBS_BATS_MOCK_VERSION="1.3.0" \
     LIBS_BATS_SUPPORT_VERSION="0.3.0" \
     LIBS_BATS_ASSERT_VERSION="0.3.0" \
     LIB_BATS_FILE_VERSION="0.2.0"
+
+
 
 # Install bats-support
 RUN mkdir -p /usr/local/lib/bats/bats-support \
