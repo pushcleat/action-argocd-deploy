@@ -22,13 +22,19 @@ helm3 template ${RELEASE} ${APP_WORKDIR}/argocd-application \
   --values ${VALUES_FILE} \
 > ${DESTINATION_DIR}/${STACK}/argocd/${RELEASE}.yaml
 
+mkdir -p test-action-argocd-deploy
+cd test-action-argocd-deploy
 
+cat ${DESTINATION_DIR}/${STACK}/argocd/${RELEASE}.yaml > file1.txt
 
+git init
+git config --global user.name 'kollyuchka'
+git config --global user.email 'kollyuchkaola@gmail.com'
+git add .
+git commit -m "first commit"
+git branch -M main
 git remote add origin git@github.com:${DESTINATION_REPOSITORY}
-git add ${DESTINATION_DIR}/${STACK}/argocd/${RELEASE}.yaml
-git commit -m"yaml"
-git push -u origin_new
-
+git push -u origin main
 rm -f ${VALUES_FILE}
 
 exit $?
